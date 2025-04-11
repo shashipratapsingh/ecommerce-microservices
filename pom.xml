@@ -8,11 +8,11 @@
 		<version>3.3.10</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>OrderService</groupId>
-	<artifactId>OrderService</artifactId>
+	<groupId>Order-Service</groupId>
+	<artifactId>Order-Service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>OrderService</name>
-	<description>OrderService</description>
+	<name>Order-Service</name>
+	<description>Order-Service</description>
 	<url/>
 	<licenses>
 		<license/>
