@@ -14,7 +14,10 @@ public class CompanyProfileController {
 
     @Autowired
     private CompanyProfileService service;
-
+    @GetMapping("/HealthCheck")
+    public String healthCheck() {
+        return "Profile service working";
+    }
     @PostMapping
     public ResponseEntity<CompanyProfile> createProfile(@RequestBody CompanyProfile profile) {
         return ResponseEntity.ok(service.createProfile(profile));
