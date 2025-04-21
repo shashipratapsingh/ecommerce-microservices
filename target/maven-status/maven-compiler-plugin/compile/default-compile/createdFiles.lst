@@ -1,0 +1,7 @@
+ProductService\service\impl\ProductServiceImpl.class
+ProductService\controller\ProductController.class
+ProductService\ProductServiceApplication.class
+ProductService\service\ProductService.class
+ProductService\dto\ReduceStockRequest.class
+ProductService\entity\Product.class
+ProductService\repository\ProductRepository.class

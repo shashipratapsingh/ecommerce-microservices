@@ -1,0 +1,12 @@
+package ProductService.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ReduceStockRequest {
+    private int quantity;
+}
