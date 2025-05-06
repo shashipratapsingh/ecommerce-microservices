@@ -65,8 +65,10 @@ public class OrderServiceImpl implements OrderService {
     private RestTemplate restTemplate;
 
     public Product getProductById(Long productId) {
-        String productServiceUrl = "http://localhost:8083/products/" + productId; // Replace with actual ProductService URL or Eureka name
+        // Use the service name registered with Eureka instead of a static URL
+        String productServiceUrl = "http://product-service/products/" + productId;  // 'product-service' is the Eureka service name
 
+        // The load balancer will automatically route the request to one of the available instances of 'product-service'
         ResponseEntity<Product> response = restTemplate.getForEntity(productServiceUrl, Product.class);
 
         if (response.getStatusCode().is2xxSuccessful()) {
