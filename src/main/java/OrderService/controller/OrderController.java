@@ -1,6 +1,7 @@
 package OrderService.controller;
 import OrderService.entity.Order;
 import OrderService.service.OrderService;
+import ProductService.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +34,11 @@ public class OrderController {
     public ResponseEntity<Void> cancelOrder(@PathVariable Long id) {
         service.cancelOrder(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<Product> fetchProduct(@PathVariable Long productId) {
+        Product product = service.getProductById(productId);
+        return ResponseEntity.ok(product);
     }
 }

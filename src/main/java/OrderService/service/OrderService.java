@@ -1,5 +1,6 @@
 package OrderService.service;
 import OrderService.entity.Order;
+import ProductService.entity.Product;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,4 +12,6 @@ public interface OrderService {
     public List<Order> getOrdersByStatus(String status);
     public Order updateOrderStatus(Long id, String status);
     public void cancelOrder(Long id);
+
+    public Product getProductById(Long productId);
 }
