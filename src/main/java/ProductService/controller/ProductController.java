@@ -2,6 +2,7 @@ package ProductService.controller;
 import ProductService.dto.ReduceStockRequest;
 import ProductService.entity.Product;
 import ProductService.service.ProductService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,12 @@ public class ProductController {
 
     @Autowired
     private ProductService service;
+
     @GetMapping("/HealthCheck")
     public String healthCheck() {
         return "Product service is up!";
     }
+
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         return ResponseEntity.ok(service.addProduct(product));
@@ -54,13 +57,30 @@ public class ProductController {
         service.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
+
     @PostMapping("/{id}/reduce-stock")
     public ResponseEntity<Void> reduceStock(@PathVariable Long id, @RequestBody ReduceStockRequest request) {
         service.reduceStock(id, request.getQuantity());
         return ResponseEntity.ok().build();
     }
+
     @GetMapping("/search")
     public List<Product> searchProducts(@RequestParam("query") String keyword) {
         return service.searchByKeyword(keyword);
+    }
+
+    // Circuit breaker applied for stock reduction
+    @PostMapping("/{id}/reduce-stocks")
+    @CircuitBreaker(name = "productService", fallbackMethod = "fallbackReduceStock")
+    public ResponseEntity<Void> reduceStockWithCircuitBreaker(@PathVariable Long id, @RequestBody ReduceStockRequest request) {
+        service.reduceStock(id, request.getQuantity());
+        return ResponseEntity.ok().build();
+    }
+
+    // Fallback method for stock reduction in case of circuit breaker open
+    public ResponseEntity<Void> fallbackReduceStock(Long id, ReduceStockRequest request, Throwable throwable) {
+        // Log error and return a fallback response
+        System.out.println("Circuit Breaker fallback triggered: " + throwable.getMessage());
+        return ResponseEntity.status(503).build();  // Service unavailable response
     }
 }
